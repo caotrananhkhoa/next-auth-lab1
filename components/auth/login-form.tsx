@@ -19,6 +19,8 @@ import { Button } from "@/components/ui/button";
 import FormError from "@/components/form-error";
 import FormSuccess from "../form-success";
 
+import { login } from "@/actions/login";
+
 const LoginForm = () => {
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -29,7 +31,7 @@ const LoginForm = () => {
   });
 
   const onSubmit = (value: z.infer<typeof LoginSchema>) => {
-    console.log(value)
+    login(value)
   }
 
   return (
