@@ -20,8 +20,12 @@ import FormError from "@/components/form-error";
 import FormSuccess from "../form-success";
 
 import { login } from "@/actions/login";
+// Pending state
+import { useTransition } from "react";
 
 const LoginForm = () => {
+  const [isPending, startTransition] = useTransition();
+
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -31,8 +35,10 @@ const LoginForm = () => {
   });
 
   const onSubmit = (value: z.infer<typeof LoginSchema>) => {
-    login(value)
-  }
+    startTransition(() => {
+      login(value);
+    });
+  };
 
   return (
     <CardWrapper
@@ -53,6 +59,7 @@ const LoginForm = () => {
                   <FormControl>
                     <Input
                       {...field}
+                      disabled={isPending}
                       placeholder="abc@example.com"
                       type="email"
                     ></Input>
@@ -70,6 +77,7 @@ const LoginForm = () => {
                   <FormControl>
                     <Input
                       {...field}
+                      disabled={isPending}
                       placeholder="******"
                       type="password"
                     ></Input>
@@ -81,7 +89,9 @@ const LoginForm = () => {
           </div>
           <FormError message="Invalid credentials!" />
           <FormSuccess message="Login success!" />
-          <Button type="submit" className="w-full">Login</Button>
+          <Button type="submit" className="w-full" disabled={isPending}>
+            Login
+          </Button>
         </form>
       </Form>
     </CardWrapper>
