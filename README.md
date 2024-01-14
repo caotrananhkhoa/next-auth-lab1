@@ -48,8 +48,30 @@ origin  https://github.com/username/abc.git (fetch)
 origin  https://github.com/username/abc.git (push)
 ```
 
+#### Displaying a pending visual state in Client component using useTransition
 
+```js
+import { useTransition } from 'react'
 
+const ClientComponent = () => {
+  const [isPending, startTransition] = useTransition();
+
+  const onClick = () => {
+    startTransition(() => {
+      // Call server action
+    });
+  }
+
+  if (isPending) {
+    return <p>Pending...</p>
+  }
+  else {
+    return <button onClick={onClick}>Click here!</button>
+  }
+}
+```
+
+> See more: https://react.dev/reference/react/useTransition#displaying-a-pending-visual-state-during-the-transition
 
 
 
