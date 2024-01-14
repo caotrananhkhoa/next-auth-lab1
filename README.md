@@ -71,7 +71,11 @@ const ClientComponent = () => {
 }
 ```
 
-> See more: https://react.dev/reference/react/useTransition#displaying-a-pending-visual-state-during-the-transition
+> See more:
+>
+> https://react.dev/reference/react/useTransition#displaying-a-pending-visual-state-during-the-transition
+>
+> https://auth0.com/blog/using-nextjs-server-actions-to-call-external-apis/
 
 
 
