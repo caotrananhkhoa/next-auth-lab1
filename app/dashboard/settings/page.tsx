@@ -1,7 +1,21 @@
-const SettingsPage = () => {
-    return (
-        <h1>Settings</h1>
-    )
-}
+import { auth, signOut } from "@/auth";
 
-export default SettingsPage
+const SettingsPage = async () => {
+  const session = await auth();
+
+  return (
+    <>
+      <h1>{JSON.stringify(session)}</h1>
+      <form
+        action={async () => {
+          "use server";
+          await signOut();
+        }}
+      >
+        <button type="submit">Sign out (Temporary)</button>
+      </form>
+    </>
+  );
+};
+
+export default SettingsPage;
