@@ -44,7 +44,9 @@ const LoginForm = () => {
       message: "",
     });
     startTransition(() => {
-      login(value).then((data) => setStatus(data));
+      login(value).then((data) => {
+        setStatus(data);
+      });
     });
   };
 
@@ -96,10 +98,10 @@ const LoginForm = () => {
             />
           </div>
           <FormError
-            message={status.status === 1 ? status.message : undefined}
+            message={status?.status === 1 ? status.message : undefined}
           />
           <FormSuccess
-            message={status.status === 0 ? status.message : undefined}
+            message={status?.status === 0 ? status.message : undefined}
           />
           <Button type="submit" className="w-full" disabled={isPending}>
             Login
