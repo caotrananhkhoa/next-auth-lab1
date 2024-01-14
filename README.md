@@ -1,5 +1,3 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
 ## Getting Started
 
 First, run the development server:
@@ -20,17 +18,62 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+## Guides
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### Connect local repository to cloud repository in Github
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+1. Open your Git Bash and navigate to the repository that needs to be linked.
+```bash
+/abc > 
+```
 
-## Deploy on Vercel
+2. Check if the repository is clean and there is nothing outstanding by using `git status` command.
+```bash
+/abc > git status
+On branch main
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+No commits yet
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+3. Use `git remote` command with URL of cloud repository.
+```bash
+/abc > git remote origin https://github.com/username/abc.git
+```
+
+4. Go ahead and use `git remote -v` command to re-check.
+```bash
+/abc > git remote -v
+origin  https://github.com/username/abc.git (fetch)
+origin  https://github.com/username/abc.git (push)
+```
+
+#### Displaying a pending visual state in Client component using useTransition
+
+```js
+import { useTransition } from 'react'
+
+const ClientComponent = () => {
+  const [isPending, startTransition] = useTransition();
+
+  const onClick = () => {
+    startTransition(() => {
+      // Call server action
+    });
+  }
+
+  if (isPending) {
+    return <p>Pending...</p>
+  }
+  else {
+    return <button onClick={onClick}>Click here!</button>
+  }
+}
+```
+
+> See more: https://react.dev/reference/react/useTransition#displaying-a-pending-visual-state-during-the-transition
+
+
+
+
+
