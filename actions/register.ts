@@ -5,6 +5,7 @@ import { RegisterSchema } from "@/schemas"
 
 import bcrypt from "bcrypt"
 import { db } from "@/lib/db"
+import { getUserByEmail } from "@/data/user"
 
 export type RegisterStatusType = {
     status: number,
@@ -26,11 +27,7 @@ export const register = async (value: z.infer<typeof RegisterSchema>) => {
     const hashedPassword = await bcrypt.hash(password, 10)
 
     // Exist user in database
-    const existingUser = await db.user.findUnique({
-        where: {
-            email
-        }
-    })
+    const existingUser = await getUserByEmail(email)
 
     if (existingUser) {
         return {
