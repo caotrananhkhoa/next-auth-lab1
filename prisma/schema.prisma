@@ -5,4 +5,13 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model User
+// Run "npx prisma generator" to generate Prisma client models
+// Run "npx prisma db push" to push the models to cloud database
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id String @id @default(cuid())
+  name String
+}
