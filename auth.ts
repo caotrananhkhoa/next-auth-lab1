@@ -1,8 +1,17 @@
-import NextAuth from "next-auth";
+import NextAuth, { type DefaultSession } from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 
 import authConfig from "@/auth.config";
 import { db } from "@/lib/db";
+import { getUserById } from "./data/user";
+
+declare module "next-auth" {
+  interface User {
+    // New field in User object
+    id: string,
+    role: "ADMIN" | "USER"
+  }
+}
 
 export const {
   handlers: { GET, POST },
@@ -15,10 +24,28 @@ export const {
     async session({ token, session }) {
       // Create an id field, which get from token, in user object
       // token.sub is id of current user
-      if (token.sub && session.user) {
-        session.user.id = token.sub
+      if (!session.user) {
+        return session
       }
-      return session
+      let userSession = session.user
+      if (token.sub) {
+        userSession = {
+          ...session.user,
+          id: token.sub
+        }
+      }
+
+      if (token.role) {
+        userSession = {
+          ...session.user,
+          role: token.role as "ADMIN" | "USER"
+        }
+      }
+
+      return {
+        ...session,
+        user: userSession
+      }
     },
 
     // Create and/or modify token
@@ -28,10 +55,22 @@ export const {
       // const res2 = await res.json()
       // token.customField = res2.title
 
+      if (!token.sub) {
+        return token
+      }
+      
+      const existingUser = await getUserById(token.sub)
+
+      if (!existingUser) {
+        return token
+      }
+
+      // Create a "role" field in token object
+      token.role = existingUser.role
       return token
     }
   },
-  adapter: PrismaAdapter(db),
+  adapter: PrismaAdapter(db) as any,
   session: { strategy: "jwt" },
   ...authConfig,
 });
