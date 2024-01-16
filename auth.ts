@@ -20,6 +20,17 @@ export const {
   signOut
 } = NextAuth({
   callbacks: {
+    async signIn({ user }) {
+      const existingUser = await getUserById(user.id)
+
+      // Block login if not existing user or not verified
+      if (!existingUser || !existingUser.emailVerified) {
+        return false
+      }
+
+      return true
+    },
+
     // Modify session
     async session({ token, session }) {
       // Create an id field, which get from token, in user object
