@@ -24,9 +24,9 @@ export const {
       const existingUser = await getUserById(user.id)
 
       // Block login if not existing user or not verified
-      if (!existingUser || !existingUser.emailVerified) {
-        return false
-      }
+      // if (!existingUser || !existingUser.emailVerified) {
+      //   return false
+      // }
 
       return true
     },
@@ -35,6 +35,7 @@ export const {
     async session({ token, session }) {
       // Create an id field, which get from token, in user object
       // token.sub is id of current user
+      console.log({session})
       if (!session.user) {
         return session
       }
@@ -60,11 +61,13 @@ export const {
     },
 
     // Create and/or modify token
-    async jwt({ token }) {
+    async jwt({ token, user }) {
       // Custom field (Ex: Access token from external server)
       // const res = await fetch('https://dummyjson.com/products/1')
       // const res2 = await res.json()
       // token.customField = res2.title
+
+      console.log({user})
 
       if (!token.sub) {
         return token

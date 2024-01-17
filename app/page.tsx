@@ -1,3 +1,5 @@
+"use client"
+
 import { Poppins } from "next/font/google";
 import { Button } from "@/components/ui/button";
 
@@ -5,11 +7,15 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import LoginButton from "@/components/auth/login-button";
 
+// Redirect of next.js
+import { useRouter } from "next/navigation";
+
 const font = Poppins({
   subsets: ["latin"],
   weight: ["600"],
 });
 export default function Home() {
+  const router = useRouter()
   return (
     <main className="flex h-full flex-col items-center justify-center bg-sky-100">
       <div className="space-y-6 text-center">
@@ -24,7 +30,7 @@ export default function Home() {
         <p className="text-white text-lg">A simple authentication service</p>
         <div>
           <LoginButton>
-            <Button variant="secondary" size="lg">
+            <Button variant="secondary" size="lg" onClick={() => router.push("/auth/login")}>
               Sign in
             </Button>
           </LoginButton>
